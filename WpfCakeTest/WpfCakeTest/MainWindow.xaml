@@ -1,0 +1,179 @@
+﻿<fluent:RibbonWindow
+    xmlns:fluent="urn:fluent-ribbon" x:Class="WpfCakeTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:local="clr-namespace:WpfCakeTest.Controls"
+    xmlns:vm="clr-namespace:WpfCakeTest.ViewModel"
+     xmlns:Converters="clr-namespace:WpfCakeTest.Converters"
+    xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    mc:Ignorable="d"  d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type vm:MainWindowViewModel}}"
+        Title="Cake Mounting" Height="800" Width="1100">
+    <fluent:RibbonWindow.Resources>
+        <Converters:IsEqualToConverter x:Key="IsEqualToConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style TargetType="{x:Type Button}" x:Key="OpacityOnHover">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </fluent:RibbonWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="700"/>
+        </Grid.RowDefinitions>
+      
+            <Grid Grid.Row="0" >
+                <fluent:Ribbon>
+                    <fluent:Ribbon.QuickAccessItems>
+                        <fluent:QuickAccessMenuItem IsChecked="true">
+                            <fluent:Button Header="选取1"/>
+                        </fluent:QuickAccessMenuItem>
+                        <fluent:QuickAccessMenuItem Header="下拉选" IsChecked="False" >
+                            <fluent:CheckBox></fluent:CheckBox>
+                        </fluent:QuickAccessMenuItem>
+                        <fluent:QuickAccessMenuItem IsChecked="True" Header="快速启动" />
+                    </fluent:Ribbon.QuickAccessItems>
+                    <fluent:Ribbon.Menu>
+                        <fluent:Backstage>
+                            <fluent:BackstageTabControl>
+                                <fluent:Button Header="保存" KeyTip="S" />
+                                <fluent:Button Header="保存为.." KeyTip="A" CanAddToQuickAccessToolBar="False"/>
+                                <fluent:Button Header="关闭" KeyTip="X"  />
+                            </fluent:BackstageTabControl>
+                        </fluent:Backstage>
+                    </fluent:Ribbon.Menu>
+                    <fluent:RibbonTabItem Header="开始" IsSelected="True">
+                        <fluent:RibbonGroupBox KeyTip="FG" Header="剪贴板" IsLauncherVisible="True" x:Name="groupL" Width="128" Height="97">
+                            <fluent:Button Name="select" Size="Large" Header="选择" LargeIcon="D:\source2\repos2\WpfCakeTest\WpfCakeTest\Image\Select.png" Click="SelectButton_Click"></fluent:Button>
+                            <fluent:Button Size="Middle" Header="剪切" Icon="D:\source2\repos2\WpfCakeTest\WpfCakeTest\Image\Cut-Small.png" ></fluent:Button>
+                            <fluent:Button Size="Middle" Header="复制" Icon="D:\source2\repos2\WpfCakeTest\WpfCakeTest\Image\Copy-Small.png" ></fluent:Button>
+                            <fluent:Button Size="Middle" Header="粘贴" Icon="D:\source2\repos2\WpfCakeTest\WpfCakeTest\Image\Paste-Small.png"></fluent:Button>
+                        </fluent:RibbonGroupBox>
+                        <fluent:RibbonGroupBox Header="字体" Height="92" Width="208" >
+                            <fluent:ComboBox  Name="cobFF" IsEditable="true" InputWidth="150" Header="字体"  ></fluent:ComboBox>
+                            <fluent:ComboBox Name ="cobFS" IsEditable="False" InputWidth="150" Header="大小" ></fluent:ComboBox>
+                            <fluent:ComboBox Name="cobFC" IsEditable="False" InputWidth="150" Header="颜色" ></fluent:ComboBox>
+                        </fluent:RibbonGroupBox>
+                        <fluent:RibbonGroupBox Header="段落" Height="96" Width="245" >
+                            <fluent:Button Size="Middle" Header="左对齐"></fluent:Button>
+                            <fluent:Button Size="Middle" Header="右对齐"></fluent:Button>
+                            <fluent:Button Size="Middle" Header="居中"></fluent:Button>
+                            <fluent:Button Size="Middle" Header="分散居中"></fluent:Button>
+                            <fluent:Button Size="Middle" Header="减少缩进量"></fluent:Button>
+                            <fluent:Button Size="Middle" Header="增加缩进量"></fluent:Button>
+                            <fluent:Button Size="Middle" Header="项目符号"></fluent:Button>
+                            <fluent:Button Size="Middle" Header="编号"></fluent:Button>
+
+                        </fluent:RibbonGroupBox>
+                        <fluent:RibbonGroupBox Header="颜色" Height="96" Width="170" >
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <fluent:ColorGallery SelectedColorChanged="ColorGallery_SelectedColorChanged" x:Name="colorGallery"
+                            SelectedColor="{Binding SelectedTool.DrawingAttributes.Color, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsMoreColorsButtonVisible="True" IsNoColorButtonVisible="False" Mode="ThemeColors" ChipHeight="14" ChipWidth="14" IsAutomaticColorButtonVisible="False">
+                                    <fluent:ColorGallery.Resources>
+                                        <Style TargetType="{x:Type fluent:GroupSeparatorMenuItem}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </Style>
+                                    </fluent:ColorGallery.Resources>
+                                </fluent:ColorGallery>
+                            </ScrollViewer>
+                        </fluent:RibbonGroupBox>
+                        <fluent:RibbonGroupBox Header="样式" Height="94" Width="340" >
+
+                        </fluent:RibbonGroupBox>
+                    </fluent:RibbonTabItem>
+                    <fluent:RibbonTabItem Header="插入" IsSelected="True">
+                        <fluent:RibbonGroupBox Header="页面" Height="94" Width="150">
+                            <fluent:Button Size="Large" Header="  橡皮 " LargeIcon="D:\source2\repos2\WpfWord\WpfWord\image\Ribbon\Start\Eraser.png" Click="EraserButton_Click"></fluent:Button>
+                            <fluent:Button Size="Large" Header="  鼠标箭头 " LargeIcon="D:\source2\repos2\WpfWord\WpfWord\image\Ribbon\insert\Mouse_Arrow.png" Click="ArrowButton_Click"></fluent:Button>
+                            <fluent:Button Size="Large" Header="  画笔 " LargeIcon="D:\source2\repos2\WpfWord\WpfWord\image\Ribbon\insert\Highlighter_32.png" Click="PenButton_Click"></fluent:Button>
+                        </fluent:RibbonGroupBox>
+                        <fluent:RibbonGroupBox Header="表格" Height="94" Width="80" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <fluent:Button Size="Large" Header="  表格 "></fluent:Button>
+                        </fluent:RibbonGroupBox>
+                        <fluent:RibbonGroupBox Header="插图" >
+                            <fluent:Button Size="Large" Header="  图片 "></fluent:Button>
+                            <fluent:Button Size="Large" Header=" 形状 "></fluent:Button>
+                            <fluent:Button Size="Large" Header="  图表 "></fluent:Button>
+                        </fluent:RibbonGroupBox>
+                        <fluent:RibbonGroupBox Header="加载项" >
+                            <fluent:Button Size="Large" Header="  获取加载项 "></fluent:Button>
+                            <fluent:Button Size="Large" Header="  联机加载项 "></fluent:Button>
+                            <fluent:Button Size="Large" Header="  我的加载项 "></fluent:Button>
+                        </fluent:RibbonGroupBox>
+                    </fluent:RibbonTabItem>
+                    <fluent:RibbonTabItem Header="设计" IsSelected="True" ReduceOrder="Selection, Pages, Pages, Pages">
+                    <fluent:RibbonGroupBox Header="Basic tools" Name="Tools" Icon="{Binding SelectedTool.LargeIcon}" Width="300">
+                        <fluent:RibbonGroupBox.Resources>
+                            <CollectionViewSource x:Key="ToolsSource" Source="{Binding Tools}">
+                                <CollectionViewSource.SortDescriptions>
+                                    <!--????cm-->
+                                    <cm:SortDescription PropertyName="GroupName" />
+                                </CollectionViewSource.SortDescriptions>
+                            </CollectionViewSource>
+                        </fluent:RibbonGroupBox.Resources>
+                        <fluent:InRibbonGallery ItemsSource="{Binding Source={StaticResource ToolsSource}}" Selectable="True" 
+                                                SelectedItem="{Binding SelectedTool}"
+                                                Header="Tool..." ResizeMode="Both" MinItemsInRow="3" MaxItemsInRow="13" Orientation="Horizontal" 
+                                                ItemHeight="54" ItemWidth="54" GroupBy="GroupName" SelectionChanged="InRibbonGallery_SelectionChanged" 
+                                                SizeDefinition="Large, Large, Large" x:Name="toolsGallery">
+                            <!--<fluent:InRibbonGallery.ItemContainerStyle>
+                                <Style TargetType="fluent:GalleryItem">
+                                    <Setter Property="Visibility" Value="{Binding IsDisplayed, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                </Style>
+                            </fluent:InRibbonGallery.ItemContainerStyle>-->
+                            <fluent:InRibbonGallery.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:ToolViewModel}">
+                                    <StackPanel>
+                                        <Image Source="{Binding LargeIcon}" Width="24"/>
+                                        <Viewbox StretchDirection="DownOnly">
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" TextAlignment="Center" FontSize="10" Width="50"/>
+                                        </Viewbox>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </fluent:InRibbonGallery.ItemTemplate>
+                        </fluent:InRibbonGallery>
+                    </fluent:RibbonGroupBox>
+                </fluent:RibbonTabItem>
+                    
+                    <fluent:RibbonTabItem Header="布局" IsSelected="True">
+                        <fluent:RibbonGroupBox KeyTip="FG" Header="页面设置" IsLauncherVisible="False" x:Name="gro" Width="252">
+                            <fluent:Button Size="Large" Header=" 文字方向 "></fluent:Button>
+                            <fluent:Button  Header=" 页边距 "></fluent:Button>
+                            <fluent:Button Size="Large" Header=" 纸张大小 "></fluent:Button>
+                            <fluent:Button Size="Large" Header=" 纸张方向 "></fluent:Button>
+                        </fluent:RibbonGroupBox>
+                        <fluent:RibbonGroupBox Header="稿纸" >
+                            <fluent:CheckBox x:Name="IsCheckBox14" Size="Large" IsChecked="True" Header="选择1"></fluent:CheckBox>
+                            <fluent:CheckBox x:Name="IsCheckBox15" Header="选择2"></fluent:CheckBox>
+                            <fluent:CheckBox x:Name="IsCheckBox16" Header="选择3"></fluent:CheckBox>
+                        </fluent:RibbonGroupBox>
+                        <fluent:RibbonGroupBox Header="段落" >
+                            <fluent:ComboBox IsEditable="true" InputWidth="150" Header="" ItemsSource="{Binding FontsViewModel.FontsData}" ></fluent:ComboBox>
+                            <fluent:ComboBox IsEditable="False" InputWidth="150" Header="" ItemsSource="{Binding FontsViewModel.FontsData}"></fluent:ComboBox>
+                            <fluent:ComboBox IsEditable="False" InputWidth="150" Header="" ItemsSource="{Binding FontsViewModel.FontsData}"></fluent:ComboBox>
+                        </fluent:RibbonGroupBox>
+                        <fluent:RibbonGroupBox Header="排列" >
+                            <fluent:ComboBox IsEditable="true" InputWidth="150" Header="" ItemsSource="{Binding FontsViewModel.FontsData}" ></fluent:ComboBox>
+                            <fluent:ComboBox IsEditable="False" InputWidth="150" Header="" ItemsSource="{Binding FontsViewModel.FontsData}"></fluent:ComboBox>
+                            <fluent:ComboBox IsEditable="False" InputWidth="150" Header="" ItemsSource="{Binding FontsViewModel.FontsData}"></fluent:ComboBox>
+                        </fluent:RibbonGroupBox>
+                    </fluent:RibbonTabItem>
+                </fluent:Ribbon>
+            </Grid>
+
+     
+
+        <Grid Grid.Row="1" Margin="0,0,-0.4,-38">
+            <Border Background="Gray" Margin="0,0,-0.4,80">
+                <InkCanvas Name="canvas" Width="1000" Height="600" MouseWheel="ink_MouseWheel"></InkCanvas>
+            </Border>
+        </Grid>
+
+    </Grid>
+</fluent:RibbonWindow>
