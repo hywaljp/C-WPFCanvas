@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VectorGraphicsEditor;
+using VectorGraphicsEditor.Tools;
 using WpfCakeTest.ViewModel;
 
 namespace WpfCakeTest
@@ -23,12 +25,24 @@ namespace WpfCakeTest
     /// </summary>
     public partial class MainWindow : RibbonWindow
     {
+        private readonly PlaneHost planeHost;
+
+        private static readonly PenTool penTool = new PenTool();
+        private static readonly LineTool lineTool = new LineTool();
+        private static readonly EllipseTool ellipseTool = new EllipseTool();
+        private static readonly RectangleTool rectangleTool = new RectangleTool();
+        private static readonly RoundRectTool roundRectTool = new RoundRectTool();
+        private static readonly StarTool starTool = new StarTool();
+        private static readonly Loupe loupe = new Loupe();
+        private static readonly Hand hand = new Hand();
+
+        private Tool toolNow = penTool;//penTool;
         //DrawingAttributes drawingAttributes;
         public MainWindow()
         {
 
             InitializeComponent();
-            DataContext = new MainWindowViewModel();// new ToolViewModel();
+            // new ToolViewModel();
             //foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)//循环添加所有字体样式
             //{
             //    cobFF.Items.Add(fontFamily.Source);
@@ -37,6 +51,16 @@ namespace WpfCakeTest
             //canvas.DefaultDrawingAttributes = drawingAttributes;//捕获画笔的信息
             //drawingAttributes.Width = 20;
             //drawingAttributes.Height = 20;
+            planeHost = new PlaneHost
+            {
+                VerticalAlignment = VerticalAlignment.Stretch,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Margin = new Thickness(0, 0, 0, 0)
+            };
+
+            canvas.Children.Add(planeHost);
+
+            GlobalVars.sizeCanvas = new Size(792, 499);DataContext = new MainWindowViewModel();
 
         }
 
@@ -78,6 +102,8 @@ namespace WpfCakeTest
 
         private void ink_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            GlobalVars.Zooming(e.Delta / 200.0);
+            planeHost.Update();
             if (e.Delta < 0)
             {
                 foreach (Stroke stroke in canvas.Strokes)
@@ -107,6 +133,71 @@ namespace WpfCakeTest
         private void InRibbonGallery_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            var mousePosition = e.GetPosition(canvas);
+
+            toolNow.MouseMove(mousePosition);
+
+            planeHost.Update();
+        }
+
+        private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var mousePosition = e.GetPosition(canvas);
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+                toolNow.MouseDown(mousePosition);
+
+            planeHost.Update();
+        }
+
+        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var mousePosition = e.GetPosition(canvas);
+
+            if (e.LeftButton == MouseButtonState.Released)
+                toolNow.MouseUp(mousePosition);
+
+            planeHost.Update();
+        }
+
+        private readonly Dictionary<string, Tool> transform = new Dictionary<string, Tool>()
+        {
+            { "Pen", penTool },
+            { "Line", lineTool },
+            { "Ellipse", ellipseTool },
+            { "Rectangle", rectangleTool },
+            { "RoundRect", roundRectTool },
+            { "Star", starTool },
+            { "Loupe",  loupe },
+            { "Hand", hand }
+        };
+
+        private void ButtonChangeTool(object sender, RoutedEventArgs e)
+        {
+            canvas.EditingMode = InkCanvasEditingMode.None;
+            toolNow.Disable();
+            toolNow = transform[(sender as Fluent.Button).Header.ToString()];
+            toolNow.Enable();
+        }
+        private void ButtonClear_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalVars.Figures.Clear();
+            planeHost.Update();
+        }
+
+        private void Canvas_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            toolNow.MouseLeave();
+            planeHost.Update();
+        }
+
+        private void Canvas_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            toolNow.MouseEnter();
+            planeHost.Update();
         }
     }
 }

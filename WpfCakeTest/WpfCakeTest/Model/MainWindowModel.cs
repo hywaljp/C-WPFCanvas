@@ -49,7 +49,7 @@ namespace WpfCakeTest.Model
                 {
                     Name = "Normal Brush",
                     Group = Groups["Brushes"],
-                    LargeIcon = new Uri("D:\\source2\\repos2\\WpfCakeTest\\WpfCakeTest\\Image\\Brush.png"),
+                 //   LargeIcon = new Uri("D:\\source2\\repos2\\WpfCakeTest\\WpfCakeTest\\Image\\Brush.png"),
                     DrawingAttributes = new System.Windows.Ink.DrawingAttributes
                     {
                         Color = Colors.Black,
@@ -63,7 +63,7 @@ namespace WpfCakeTest.Model
                 {
                     Name = "Small Eraser",
                     Group = Groups["Erasers"],
-                    LargeIcon = new Uri("D:\\source2\\repos2\\WpfCakeTest\\WpfCakeTest\\Image\\Eraser.png"),
+                //    LargeIcon = new Uri("D:\\source2\\repos2\\WpfCakeTest\\WpfCakeTest\\Image\\Eraser.png"),
                     Mode = System.Windows.Controls.InkCanvasEditingMode.EraseByPoint,
                     DrawingAttributes = new System.Windows.Ink.DrawingAttributes
                     {
@@ -77,7 +77,7 @@ namespace WpfCakeTest.Model
                 {
                     Name = "Select",
                     Group = Groups["Other"],
-                    LargeIcon = new Uri("D:\\source2\\repos2\\WpfCakeTest\\WpfCakeTest\\Image\\Select.png"),
+                 //   LargeIcon = new Uri("D:\\source2\\repos2\\WpfCakeTest\\WpfCakeTest\\Image\\Select.png"),
                     Mode = System.Windows.Controls.InkCanvasEditingMode.Select,
                     IsDisplayed = false,
                     Cursor = null

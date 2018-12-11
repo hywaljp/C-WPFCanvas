@@ -49,10 +49,10 @@
                     </fluent:Ribbon.Menu>
                     <fluent:RibbonTabItem Header="开始" IsSelected="True">
                         <fluent:RibbonGroupBox KeyTip="FG" Header="剪贴板" IsLauncherVisible="True" x:Name="groupL" Width="128" Height="97">
-                            <fluent:Button Name="select" Size="Large" Header="选择" LargeIcon="D:\source2\repos2\WpfCakeTest\WpfCakeTest\Image\Select.png" Click="SelectButton_Click"></fluent:Button>
-                            <fluent:Button Size="Middle" Header="剪切" Icon="D:\source2\repos2\WpfCakeTest\WpfCakeTest\Image\Cut-Small.png" ></fluent:Button>
-                            <fluent:Button Size="Middle" Header="复制" Icon="D:\source2\repos2\WpfCakeTest\WpfCakeTest\Image\Copy-Small.png" ></fluent:Button>
-                            <fluent:Button Size="Middle" Header="粘贴" Icon="D:\source2\repos2\WpfCakeTest\WpfCakeTest\Image\Paste-Small.png"></fluent:Button>
+                            <fluent:Button Name="select" Size="Large" Header="选择" Click="SelectButton_Click"></fluent:Button>
+                            <fluent:Button Size="Middle" Header="剪切" ></fluent:Button>
+                            <fluent:Button Size="Middle" Header="复制"  ></fluent:Button>
+                            <fluent:Button Size="Middle" Header="粘贴" ></fluent:Button>
                         </fluent:RibbonGroupBox>
                         <fluent:RibbonGroupBox Header="字体" Height="92" Width="208" >
                             <fluent:ComboBox  Name="cobFF" IsEditable="true" InputWidth="150" Header="字体"  ></fluent:ComboBox>
@@ -89,9 +89,9 @@
                     </fluent:RibbonTabItem>
                     <fluent:RibbonTabItem Header="插入" IsSelected="True">
                         <fluent:RibbonGroupBox Header="页面" Height="94" Width="150">
-                            <fluent:Button Size="Large" Header="  橡皮 " LargeIcon="D:\source2\repos2\WpfWord\WpfWord\image\Ribbon\Start\Eraser.png" Click="EraserButton_Click"></fluent:Button>
-                            <fluent:Button Size="Large" Header="  鼠标箭头 " LargeIcon="D:\source2\repos2\WpfWord\WpfWord\image\Ribbon\insert\Mouse_Arrow.png" Click="ArrowButton_Click"></fluent:Button>
-                            <fluent:Button Size="Large" Header="  画笔 " LargeIcon="D:\source2\repos2\WpfWord\WpfWord\image\Ribbon\insert\Highlighter_32.png" Click="PenButton_Click"></fluent:Button>
+                            <fluent:Button Size="Large" Header="  橡皮 " Click="EraserButton_Click"></fluent:Button>
+                            <fluent:Button Size="Large" Header="  鼠标箭头 "  Click="ArrowButton_Click"></fluent:Button>
+                            <fluent:Button Size="Large" Header="  画笔 "  Click="PenButton_Click"></fluent:Button>
                         </fluent:RibbonGroupBox>
                         <fluent:RibbonGroupBox Header="表格" Height="94" Width="80" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <fluent:Button Size="Large" Header="  表格 "></fluent:Button>
@@ -139,6 +139,9 @@
                             </fluent:InRibbonGallery.ItemTemplate>
                         </fluent:InRibbonGallery>
                     </fluent:RibbonGroupBox>
+                    <fluent:RibbonGroupBox>
+                        <fluent:Button Header="Ellipse" Click="ButtonChangeTool"></fluent:Button>
+                    </fluent:RibbonGroupBox>
                 </fluent:RibbonTabItem>
                     
                     <fluent:RibbonTabItem Header="布局" IsSelected="True">
@@ -171,7 +174,10 @@
 
         <Grid Grid.Row="1" Margin="0,0,-0.4,-38">
             <Border Background="Gray" Margin="0,0,-0.4,80">
-                <InkCanvas Name="canvas" Width="1000" Height="600" MouseWheel="ink_MouseWheel"></InkCanvas>
+                <InkCanvas Name="canvas" Width="1000" Height="600" MouseWheel="ink_MouseWheel"  EditingMode="{Binding SelectedTool.Mode, Mode=TwoWay}" 
+                           Cursor="{Binding SelectedTool.Cursor}" DefaultDrawingAttributes="{Binding SelectedTool.DrawingAttributes}" VerticalAlignment="Stretch" MouseMove="Canvas_MouseMove" MouseLeave="Canvas_OnMouseLeave"
+                MouseEnter="Canvas_OnMouseEnter"
+                MouseDown="Canvas_MouseDown" MouseUp="Canvas_MouseUp" ></InkCanvas>
             </Border>
         </Grid>
 
